@@ -8,8 +8,10 @@ const totalElfCalories = caloriesPerElf.map((calories) => {
   return calories.reduce((total, calories) => total+parseInt(calories), 0);
 })
 
-const maxCalories = totalElfCalories.reduce((max, calories) => {
-  return calories > max ? calories : max;
-}, 0);
-console.log(JSON.stringify(totalElfCalories, null, 2));
-console.log(maxCalories);
+const sortedElfCalories = totalElfCalories.sort((a,b) => b-a);
+
+const maxCalories = sortedElfCalories[0];
+console.log('Part 1 answer:', maxCalories);
+
+const topThreeCalories = sortedElfCalories[0] + sortedElfCalories[1] + sortedElfCalories[2];
+console.log('Part 2 answer:', topThreeCalories);
