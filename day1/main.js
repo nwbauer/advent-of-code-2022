@@ -2,15 +2,15 @@ const fs = require("fs");
 
 const input = fs.readFileSync("./input.txt").toString();
 const caloriesPerElfStrings = input.split("\n\n");
-const caloriesPerElf = caloriesPerElfStrings.map((elfCaloriesString) =>
+const caloriesPerElfArray = caloriesPerElfStrings.map((elfCaloriesString) =>
   elfCaloriesString.split("\n")
 );
 
-const totalElfCalories = caloriesPerElf.map((calories) => {
+const totalCaloriesPerElf = caloriesPerElfArray.map((calories) => {
   return calories.reduce((total, calories) => total + parseInt(calories), 0);
 });
 
-const sortedElfCalories = totalElfCalories.sort((a, b) => b - a);
+const sortedElfCalories = totalCaloriesPerElf.sort((a, b) => b - a);
 
 const maxCalories = sortedElfCalories[0];
 console.log("Part 1 answer:", maxCalories);
