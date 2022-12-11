@@ -29,9 +29,9 @@ const outcomeMap = {
   'draw': drawCombinations,
   'lose': losingCombinations
 };
- 
+
 function getOutcome(round) {
-  if(isWin(round)) {
+  if (isWin(round)) {
     return 'win';
   } else if (isDraw(round)) {
     return 'draw';
@@ -59,7 +59,7 @@ function isDraw(round) {
 function part1() {
   const input = fs.readFileSync("./input.txt").toString();
   const rounds = input.split('\n');
-  
+
   const decoder = {
     A: 'rock',
     B: 'paper',
@@ -91,14 +91,14 @@ function part1() {
 
   return analyzedRounds.reduce((totalScore, round) => {
     return totalScore + round.score;
-  },0);
-  
+  }, 0);
+
 }
 
 function part2() {
   const input = fs.readFileSync("./input.txt").toString();
   const rounds = input.split('\n');
-  
+
   const decoder = {
     A: 'rock',
     B: 'paper',
@@ -131,8 +131,8 @@ function part2() {
 
   return analyzedRounds.reduce((totalScore, round) => {
     return totalScore + round.score;
-  },0);
-  
+  }, 0);
+
 }
 
 console.log('[part1] strategy total score:', part1());
