@@ -1,4 +1,3 @@
-const { groupEnd } = require("console");
 const fs = require("fs");
 
 function getItemValue(item) {
