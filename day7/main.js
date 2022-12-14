@@ -56,15 +56,15 @@ function buildFileTreeFromTerminalLines(terminalLines) {
   let location = undefined;
   let lastCommand = undefined;
 
-  console.log('terminalLines', terminalLines)
+  // console.log('terminalLines', terminalLines)
   terminalLines.forEach((line) => {
-    console.log('parsing line', line)
+    // console.log('parsing line', line)
     const isCommand = line.startsWith('$');
     if (isCommand) {
       if (line.startsWith('$ cd')) {
         lastCommand = 'cd';
         const directoryChangeArg = line.replace("$ cd ", "");
-        console.log('directoryChange', directoryChangeArg)
+        // console.log('directoryChange', directoryChangeArg)
         if (directoryChangeArg === '..') {
           location = location.parent;
         } else if (directoryChangeArg === '/') {
@@ -78,18 +78,18 @@ function buildFileTreeFromTerminalLines(terminalLines) {
           });
           location = child;
         }
-        console.log('>>> active dir', location.name);
+        // console.log('>>> active dir', location.name);
       } else if (line.startsWith('$ ls')) {
         lastCommand = 'ls';
       }
       // console.log('new location', location)
     } else {
-      console.log('parsing outcome')
+      // console.log('parsing outcome')
       // we have some output to parse
       if (lastCommand === 'ls') {
         if (line.startsWith('dir')) {
           const dirName = line.replace("dir ", "");
-          console.log('adding dir', dirName);
+          // console.log('adding dir', dirName);
           createChildIfNeeded(location, {
             name: dirName,
             parent: location,
@@ -98,7 +98,7 @@ function buildFileTreeFromTerminalLines(terminalLines) {
           });
         } else {
           const [fileSize, fileName] = line.split(" ");
-          console.log('adding file', fileName);
+          // console.log('adding file', fileName);
           createChildIfNeeded(location, {
             name: fileName,
             size: parseInt(fileSize),
@@ -112,12 +112,14 @@ function buildFileTreeFromTerminalLines(terminalLines) {
 }
 function part1() {
   const input = fs.readFileSync("./input.txt").toString();
+  const maxDirSize = 100000;
   const terminalLines = input.split('\n');
   const fileTree = buildFileTreeFromTerminalLines(terminalLines);
   appendFolderSizes(fileTree);
   // printTree(fileTree);
 
-  const nodes = findNodes(fileTree, (node) => node.type === 'dir' && node.size <= 100000)
+  const nodes = findNodes(fileTree, (node) => node.type === 'dir' && node.size <= maxDirSize)
+  console.log(`directories smaller than ${maxDirSize}:`);
   nodes.forEach((node) => printNode(node))
   return nodes.reduce((sum, node) => sum + node.size, 0);
 }
@@ -134,7 +136,7 @@ function part2() {
   console.log('sizeToDelete', sizeToDelete);
 
   const nodes = findNodes(fileTree, (node) => node.type === 'dir' && node.size >= sizeToDelete)
-  console.log('directories that can be deleted:');
+  console.log(`directories bigger than ${sizeToDelete}:`);
   nodes.forEach((node) => printNode(node))
   return nodes.reduce((minNode, node) => {
     return node.size < minNode.size ? node : minNode;
