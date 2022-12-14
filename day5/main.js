@@ -1,4 +1,3 @@
-const { KeyObject } = require("crypto");
 const fs = require("fs");
 
 function getStacks(stackString) {
